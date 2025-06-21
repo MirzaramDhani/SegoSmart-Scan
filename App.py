@@ -7,6 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Endpoint untuk mengunggah gambar dan mendapatkan rating kepuasan
+
 @app.route("/analyze", methods=["POST"])
 def analyze_image():
     if 'file' not in request.files:
