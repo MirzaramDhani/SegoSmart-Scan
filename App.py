@@ -4,7 +4,7 @@ import os
 from Expression_Detector import detect_expression
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "https://sego-smart-fe.vercel.app"}}, supports_credentials=True)
 
 # Endpoint untuk mengunggah gambar dan mendapatkan rating kepuasan
 
