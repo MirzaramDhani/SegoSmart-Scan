@@ -6,6 +6,10 @@ from Expression_Detector import detect_expression
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "https://sego-smart-fe.vercel.app"}}, supports_credentials=True)
 
+@app.route('/')
+def hello():
+    return 'Hello world, welcome to Railway!'
+
 # Endpoint untuk mengunggah gambar dan mendapatkan rating kepuasan
 
 @app.route("/analyze", methods=["POST"])
