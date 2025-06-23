@@ -18,8 +18,9 @@ COPY . .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Expose port (optional, default gunicorn runs on 8000)
-EXPOSE 8000
+# Expose port (optional, default gunicorn runs on 5000)
+EXPOSE 5000
 
 # Start server with gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "App:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+
