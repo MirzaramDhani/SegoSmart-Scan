@@ -1,18 +1,25 @@
-# Use the Python 3 official image
-# https://hub.docker.com/_/python
-FROM python:3
+FROM python:3.10-slim-bullseye
 
-# Run in unbuffered mode
-ENV PYTHONUNBUFFERED=1 
+ENV PYTHONUNBUFFERED=1
 
-# Create and change to the app directory.
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libgl1 \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
 WORKDIR /app
 
-# Copy local code to the container image.
-COPY . ./
+# Copy project files
+COPY . .
 
-# Install project dependencies
+# Upgrade pip and install Python dependencies
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Run the web service on container startup.
-CMD ["gunicorn", "main:app"]
+# Expose port (optional, default gunicorn runs on 8000)
+EXPOSE 8000
+
+# Start server with gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "App:app"]
