@@ -1,7 +1,7 @@
-# Gunakan image dasar Python
-FROM python:3.12-slim
+# Gunakan image Python yang ringan
+FROM python:3.10-slim
 
-# Install libGL dan dependensi lain
+# Install libGL dan dependensi lainnya
 RUN apt-get update && apt-get install -y \
     libgl1 \
     libglib2.0-0 \
@@ -10,12 +10,12 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Copy semua file ke dalam container
+# Copy semua file
 COPY . .
 
-# Install semua Python package
+# Upgrade pip dan install dependencies
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Jalankan server Flask menggunakan gunicorn
+# Jalankan server menggunakan gunicorn
 CMD ["gunicorn", "App:app", "--bind", "0.0.0.0:8080"]
