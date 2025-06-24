@@ -18,19 +18,33 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Create a virtual environment and install dependencies
-RUN /opt/venv/bin/pip uninstall -y opencv-python && \
-    /opt/venv/bin/pip install --no-cache-dir opencv-python-headless && \
-    /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
+FROM python:3.12-slim
 
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender1 && \
+    rm -rf /var/lib/apt/lists/*
 
-# Copy your application code into the container
-COPY . /app
+WORKDIR /app
 
-# Set the virtual environment as the default Python environment
+COPY requirements.txt .
+
+# Buat virtual env dan install pip
+RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Expose the port your app will run on
+# Install opencv headless dan deepface tanpa deps
+RUN pip install --no-cache-dir opencv-python-headless && \
+    pip install --no-cache-dir deepface --no-deps && \
+    pip install --no-cache-dir -r requirements.txt
+
+RUN pip list
+
+COPY . /app
+
 EXPOSE 5000
 
-# Command to run your app
 CMD ["sh", "-c", "gunicorn App:app --bind 0.0.0.0:${PORT}"]
