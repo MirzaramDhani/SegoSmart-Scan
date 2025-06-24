@@ -32,4 +32,4 @@ def analyze_image():
 
 if __name__ == "__main__":
     print("Menjalankan Server Scan Mood")
-    app.run(debug=True)
+    app.run(host="0.0.0.0")
