@@ -36,11 +36,17 @@ COPY requirements.txt .
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Install opencv headless dan deepface tanpa deps
-RUN pip install --no-cache-dir opencv-python-headless && \
-    pip install --no-cache-dir deepface --no-deps && \
-    pip install --no-cache-dir -r requirements.txt
-    pip list
+# Install hanya opencv-python-headless dulu
+RUN pip install --no-cache-dir opencv-python-headless
+
+# Install DeepFace TANPA dependensi (agar tidak install opencv-python)
+RUN pip install --no-cache-dir deepface --no-deps
+
+# Install sisa requirements (jangan install ulang deepface / opencv)
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN pip show opencv-python || echo "opencv-python not found"
+RUN pip show opencv-python-headless
 
 COPY . /app
 
