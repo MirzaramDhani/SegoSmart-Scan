@@ -33,4 +33,4 @@ ENV PATH="/opt/venv/bin:$PATH"
 EXPOSE 5000
 
 # Command to run your app
-CMD ["gunicorn", "App:app", "--bind", "0.0.0.0:${PORT}"]
+CMD ["sh", "-c", "gunicorn App:app --bind 0.0.0.0:${PORT}"]
