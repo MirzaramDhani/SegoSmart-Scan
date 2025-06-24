@@ -40,8 +40,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 RUN pip install --no-cache-dir opencv-python-headless && \
     pip install --no-cache-dir deepface --no-deps && \
     pip install --no-cache-dir -r requirements.txt
-
-RUN pip list
+    pip list
 
 COPY . /app
 
