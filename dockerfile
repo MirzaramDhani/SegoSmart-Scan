@@ -18,9 +18,10 @@ WORKDIR /app
 COPY requirements.txt .
 
 # Create a virtual environment and install dependencies
-RUN python -m venv /opt/venv
-RUN /opt/venv/bin/pip install --upgrade pip
-RUN /opt/venv/bin/pip install -r requirements.txt
+RUN /opt/venv/bin/pip uninstall -y opencv-python && \
+    /opt/venv/bin/pip install --no-cache-dir opencv-python-headless && \
+    /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
+
 
 # Copy your application code into the container
 COPY . /app
